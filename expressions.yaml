@@ -1,0 +1,33 @@
+name: Expressions
+
+on:
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: 'Enable debug output'
+        type: boolean
+        default: false
+  push:
+    branches:
+      - '**'
+
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: '[Debug] print start-up data'
+        if: ${{ inputs.debug }}
+        run: |
+          echo "Debug mode is on"
+          echo "Workflow name: ${{ github.workflow }}"
+          echo "Run ID: ${{ github.run_id }}"
+          echo "Run number: ${{ github.run_number }}"
+          echo "Event name: ${{ github.event_name }}"
+          echo "Actor name: ${{ github.actor }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "SHA: ${{ github.sha }}"
+
+      - name: '[Debug] print when triggered from main'
+        if: ${{ github.ref_name == 'main' }}
+        run: echo "This workflow was triggered from the main branch"
